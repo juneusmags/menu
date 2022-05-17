@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
-
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+import { useEffect, useState } from 'react';
+import menu from './data';
+import Categories from './components/Categories';
+import Menu from './components/Menu';
+const allCategories = ["all", ...new Set(menu.map((item) =>{
+  return item.category
+}))]
 function App() {
+  const [menuItems, setMenuItems] = useState(menu)
+  const [categories, setCategories] = useState([])
+
+  useEffect(()=>{
+    console.log(allCategories)
+  })
+
+  const chooseCategory = (category) =>{
+    if (category === "all"){
+      setMenuItems(menu)
+      
+    }
+    else{
+      const newMenu  = menu.filter((item)=>{
+      return item.category === category
+      })
+      setMenuItems(newMenu)
+    }
+    
+  }
+ 
+  // const chooseCategory = () =>{
+  //   constnewCategories = menu.filter((item)=>{
+  //     item.category === category
+    
+  //   }
+  // }
+
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1 className = "d-flex justify-content-center">Our Menu</h1>
+      <hr></hr>
+      <Categories categories = {allCategories} chooseCategory = {chooseCategory}/>
+      <Menu key = {menuItems.id} menuItems = {menuItems}/>
+      
+    </>
   );
 }
+
 
 export default App;
